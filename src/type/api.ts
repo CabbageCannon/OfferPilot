@@ -1,0 +1,53 @@
+export type AiMessage = {
+  role: "user" | "assistant" | "system",
+  content: string
+}
+
+export type ChatRequest = {
+  requestId: string,
+  sessionId: string,
+  messages: AiMessage[],
+  modelId?: string,
+  jdDocumentId?: string,
+  resumeDocumentId?: string
+}
+
+export type ModelInfo = {
+  id: string,
+  label: string,
+  capabilities: { stream: boolean, structured: boolean, tools: boolean }
+}
+
+export type DocumentInfo = {
+  id: string,
+  kind: "jd" | "resume",
+  filename: string,
+  extractedText: string,
+  parseStatus: string,
+  message?: string
+}
+
+// SSE事件类型
+export type DeltaEvent = {
+  type: "delta",
+  requestId: string,
+  content: string
+}
+
+export type DoneEvent = {
+  type: "done",
+  requestId: string,
+  finishReason: "stop" | "length"
+}
+
+export type ErrorEvent = {
+  type: "error",
+  requestId: string,
+  code: string,
+  message: string,
+  retryable: boolean
+}
+
+export type ChatStreamEvent = DeltaEvent
+  | DoneEvent
+  | ErrorEvent
